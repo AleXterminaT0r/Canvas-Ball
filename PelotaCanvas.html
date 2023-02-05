@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pelotita en el Canvas</title>
+    <style>
+body { margin: 32px; background: #333;
+}
+
+#canvas{
+border: solid 5px white; background: linear-gradient(gray, yellow);
+}
+    </style>
+</head>
+<body>
+    
+<canvas width="500" height="500" id="canvas" ></canvas>
+
+<script>
+const RADUIUS= 20;
+const width = 500;
+const height = 500;
+const speed = 10; 
+
+const coord = { x: width / 2, y: height / 2};
+const delta = { x: Math.random() * speed * 2 - speed,
+                y:Math.random() * speed * 2 - speed };
+
+const cnv = document.getElementById('canvas');
+const ctx = cnv.getContext('2d');
+
+function tick () {
+const newx = coord.x + delta.x;
+const newy = coord.y + delta.y;
+
+if(newx > width - RADUIUS || newx < RADUIUS)
+   delta.x = -delta.x;
+
+if(newy > height - RADUIUS || newy < RADUIUS)
+   delta.y = -delta.y; 
+
+coord.x = newx;
+coord.y = newy;
+
+
+requestAnimationFrame(draw);
+setTimeout(tick, 10);
+}
+
+function draw() {
+ctx.fillStyle =  "white";   
+ctx.clearRect(0, 0, width, height);
+ctx.beginPath();
+ctx.arc(coord.x, coord.y, RADUIUS, 0, Math.PI*2, 1);
+ctx.fill();
+
+} 
+
+tick();
+</script>
+
+</body>
+</html>
